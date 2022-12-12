@@ -23,6 +23,9 @@ serviceMonitorSelector: # line 2050
 commanLabels:
   prometheus: devops # if i dont set up this, the prometheus operator will ignore 
 
+serviceMonitorNamespaceSelector: # cross namespace selector
+  matchLabels:
+    monitoring: prometheus
 
 grafana:
   adminPassword: prom-operator
