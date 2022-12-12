@@ -1,0 +1,28 @@
+---
+defaultRules:
+  rules:
+    etcd: false
+    kubeControllerManager: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
+  labels:
+    app: prometheus
+kubeEtcd:               # line 1057
+  enabled: false
+kubeScheduler: 
+  enable: false
+kubeEtcd:
+  enable: false
+kubeControllerManager:
+  enable: false
+
+
+serviceMonitorSelector: # line 2050
+  matchLabels: 
+    prometheus: devops # this label will be used by prometheus operator to select monitor object
+commanLabels:
+  prometheus: devops # if i dont set up this, the prometheus operator will ignore 
+
+
+grafana:
+  adminPassword: prom-operator
