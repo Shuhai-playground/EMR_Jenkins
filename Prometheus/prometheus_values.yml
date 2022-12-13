@@ -1,4 +1,7 @@
 ---
+commonLabels:
+  prometheus: devops # if i dont set up this, the prometheus operator will ignore 
+
 defaultRules:
   rules:
     etcd: false
@@ -10,22 +13,29 @@ defaultRules:
 kubeEtcd:               # line 1057
   enabled: false
 kubeScheduler: 
-  enable: false
-kubeEtcd:
-  enable: false
-kubeControllerManager:
-  enable: false
+  enabled: false
+kubeControllerManager: 
+  enabled: false
 
 
-serviceMonitorSelector: # line 2050
-  matchLabels: 
-    prometheus: devops # this label will be used by prometheus operator to select monitor object
-commanLabels:
-  prometheus: devops # if i dont set up this, the prometheus operator will ignore 
 
-serviceMonitorNamespaceSelector: # cross namespace selector
-  matchLabels:
-    monitoring: prometheus
+# grafana:
+#   adminPassword: prom-operator
 
-grafana:
-  adminPassword: prom-operator
+
+
+## Deploy a Prometheus instance
+##
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelector: 
+      matchLabels: 
+        prometheus: devops # this label will be used by prometheus operator to select monitor object
+
+
+    ## Namespaces to be selected for ServiceMonitor discovery.
+    ##
+    serviceMonitorNamespaceSelector: 
+      matchLabels:
+        monitoring: prometheus
+
