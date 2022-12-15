@@ -1,0 +1,9 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: devopsbyexample-io-ca
+  namespace: cert-manager
+spec:
+  ca:
+    secretName: devopsbyexample-io-key-pair

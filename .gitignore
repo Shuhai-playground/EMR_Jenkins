@@ -5,3 +5,5 @@ terraform.tfstate.backup
 
 .DS_Store
 Prometheus/.DS_Store
+
+ca.crt

@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/issuer: letsencrypt-cluster-issuer
+  name: example-app
+spec:
+  tls:
+  - hosts:
+    - test.shuhai.de
+    secretName: example-app-tls
+  rules:
+  - host: test.shuhai.de
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: example-service
+            port: 
+              number: 80
