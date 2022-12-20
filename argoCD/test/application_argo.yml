@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: example-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Shuhai-playground/EMR_Jenkins.git
+    targetRevision: HEAD
+    path: argoCD/test
+    directory:
+      recurse: true
+  destination:
+    server: https://C1A44341788433ED6E8A574C0C8F7D8E.gr7.us-east-1.eks.amazonaws.com
+    namespace: example-app
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false

@@ -1,0 +1,89 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-config
+data:
+  config.json: |
+    {
+      "environment" : "dev"
+    }
+# kubectl create configmap example-config --from-file ./golang/configs/config.json
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deploy
+  labels:
+    app: example-app
+  annotations:
+spec:
+  selector:
+    matchLabels:
+      app: example-app
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: example-app
+    spec:
+      containers:
+      - name: example-app
+        image: aimvector/python:1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: secret-volume
+          mountPath: /secrets/
+        - name: config-volume
+          mountPath: /configs/
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: mysecret
+      - name: config-volume
+        configMap:
+          name: example-config #name of our configmap object
+
+
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+stringData:
+  secret.json: |-
+    {
+      "api_key" : "somesecretgoeshere"
+    }
+#kubectl create secret generic mysecret --from-file .\golang\secrets\secret.json
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+spec:
+  selector:
+    app: example-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+
+
