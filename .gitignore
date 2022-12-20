@@ -7,3 +7,5 @@ terraform.tfstate.backup
 Prometheus/.DS_Store
 
 ca.crt
+
+vault/configure_kubernetes/ca.pem
