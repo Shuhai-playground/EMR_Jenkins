@@ -28,6 +28,7 @@ resource "aws_subnet" "private_us_east_1a" {
       "Name" = "private-${var.av_zone[0]}"
       "kubernetes.io/role/internal-elb"="1" # private elb
       "kubernetes.io/cluster/demo" ="owned" # under cluster demo
+      "karpenter.sh/discovery" = "true"
     }
 
 }
@@ -41,6 +42,7 @@ resource "aws_subnet" "private_us_east_1b" {
       "Name" = "private-${var.av_zone[1]}"
       "kubernetes.io/role/internal-elb"="1" # private elb
       "kubernetes.io/cluster/demo" ="owned" # under cluster demo
+      "karpenter.sh/discovery" = "true"
     }
 
 }

@@ -31,7 +31,7 @@ resource "aws_iam_role_policy_attachment" "karpenter_controller_attach" {
   policy_arn = aws_iam_policy.karpenter_controller.arn
 }
 
-resource "aws_iam_instance_profile" "karpenter" {
-  name = "KarpenterNodeInstanceProfile"
-  role = aws_iam_role.nodes.name
-}
+# resource "aws_iam_instance_profile" "karpenter" {
+#   name = "KarpenterNodeInstanceProfile"
+#   role = aws_iam_role.nodes.name
+# }

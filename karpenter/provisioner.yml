@@ -8,16 +8,24 @@ spec:
   ttlSecondsUntilExpired: 604800 # expire nodes after 7 days (in seconds) = 7 * 60 * 60 * 24
   limits:
     resources:
-      cpu: 100 # limit to 100 CPU cores
+      cpu: 4 # limit to 4 CPU cores
   requirements:
+    # # Include general purpose instance families
+    # - key: karpenter.k8s.aws/instance-family
+    #   operator: In
+    #   values: [c5, m5, r5]
+    # # Exclude small instance sizes
+    # - key: karpenter.k8s.aws/instance-size
+    #   operator: NotIn
+    #   values: [nano, micro, small, large]
     # Include general purpose instance families
     - key: karpenter.k8s.aws/instance-family
       operator: In
-      values: [c5, m5, r5]
+      values: [t3]
     # Exclude small instance sizes
     - key: karpenter.k8s.aws/instance-size
-      operator: NotIn
-      values: [nano, micro, small, large]
+      operator: In
+      values: [small, medium]
   providerRef:
     name: my-provider
 ---
@@ -27,6 +35,8 @@ metadata:
   name: my-provider
 spec:
   subnetSelector:
-    kubernetes.io/cluster/demo: owned
+    karpenter.sh/discovery: demo
   securityGroupSelector:
-    kubernetes.io/cluster/demo: owned
+    karpenter.sh/discovery: demo
+  tags:
+    karpenter.sh/discovery: demo

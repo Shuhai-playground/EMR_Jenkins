@@ -1,4 +1,14 @@
 
+
+# data "aws_iam_instance_profile" "karpenter" {
+#   name = "karpenter"
+  
+# }
+
+# output "profile" {
+#   value=data.aws_iam_instance_profile.karpenter.arn
+# }
+
 resource "helm_release" "karpenter" {
   namespace        = "karpenter"
   create_namespace = true
@@ -22,16 +32,16 @@ resource "helm_release" "karpenter" {
 
   set {
     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = module.karpenter.irsa_arn
+    value = aws_iam_role.karpenter_controller.arn
   }
 
   set {
     name  = "settings.aws.defaultInstanceProfile"
-    value = module.karpenter.instance_profile_name
+    value = "arn:aws:iam::182232283818:instance-profile/eks-a4c29c88-e18e-0479-2bf1-8c4a737b9aab"
   }
 
   set {
     name  = "settings.aws.interruptionQueueName"
-    value = module.karpenter.queue_name
+    value = aws_eks_cluster.demo.id
   }
 }

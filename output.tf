@@ -11,7 +11,9 @@ output "eks_endpoint" {
   
 }
 
-output "instanceprofile_karpenter" {
-    value = aws_iam_instance_profile.karpenter.name
-  
-}
+# output "default_instance_profile_id" {
+#     value = aws_iam_instance_profile.karpenter.arn
+# }
+
+
+

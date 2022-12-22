@@ -43,8 +43,8 @@ resource "aws_eks_node_group" "private_nodes" {
     instance_types = ["t3.medium"]
 
     scaling_config {
-      desired_size= 1
-      max_size= 5
+      desired_size= 2
+      max_size= 3
       min_size= 0
     }
 
@@ -66,4 +66,19 @@ resource "aws_eks_node_group" "private_nodes" {
     lifecycle {
       ignore_changes=[scaling_config[0].desired_size]
     }
+
+    # instance_profile = aws_iam_instance_profile.karpenter.id
+
+    tags = {
+      "karpenter.sh/discovery" = aws_eks_cluster.demo.id
+    }
 }
+
+
+# for adding a tag to security group of nodes for karpenter
+
+# resource "aws_ec2_tag" "example" {
+#   resource_id   = "${aws_eks_node_group.private_nodes.security_group_id}"
+#   key           = "TagKey"
+#   value         = "TagValue"
+# }
