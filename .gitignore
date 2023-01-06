@@ -9,3 +9,5 @@ Prometheus/.DS_Store
 ca.crt
 
 vault/configure_kubernetes/ca.pem
+
+# ec2.tf

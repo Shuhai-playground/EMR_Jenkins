@@ -62,6 +62,12 @@ resource "aws_eks_node_group" "private_nodes" {
     aws_iam_role_policy_attachment.nodes_amazon_ec2_container_registry_read_only,
     ]
 
+    # add remote connection
+    remote_access {
+      ec2_ssh_key= aws_key_pair.bastion_host.key_name
+      source_security_group_ids = [aws_security_group.node_sg.id, aws_security_group.jenkins.id]
+    }
+
     # so here when karpenter scale up and down will be ignored by this default setting
     lifecycle {
       ignore_changes=[scaling_config[0].desired_size]

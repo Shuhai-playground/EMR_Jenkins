@@ -72,7 +72,8 @@ server:
         tls_cert_file = "/vault/userconfig/tls-server/tls.crt"
         tls_key_file = "/vault/userconfig/tls-server/tls.key"
         tls_min_version = "tls12"
-      }
+      } 
+    ]/
       storage "consul" {
         path = "vault"
         address = "consul-consul-server:8500"
@@ -81,3 +82,13 @@ server:
 ui:
   enabled: true
   externalPort: 8200
+
+
+
+
+
+# vault write auth/kubernetes/config \
+# kubernetes_host=https://2ABB0259EF74F37EADCE18FAF944C490.gr7.us-east-1.eks.amazonaws.com:443 \
+# token_reviewer_jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) \
+# kubernetes_ca_cert=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
